@@ -1,0 +1,12 @@
+
+
+DXLearnProgram.opsdf
+/Release/*
+/Debug/*
+/DXLearnProgram/Release/*.log
+/DXLearnProgram/Debug/*.log
+/DXLearnProgram/Debug/*.obj
+/DXLearnProgram/Debug/*.idb
+/DXLearnProgram/Debug/*.pdb
+/DXLearnProgram/Debug/*.tolg
+/DXLearnProgram/Debug/*.tolg
