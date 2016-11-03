@@ -1,6 +1,7 @@
 #include "DXTestClass.h"
 #include "resource.h"
 
+
 namespace
 {
 	D3DAppBase* gD3dApp = nullptr;
@@ -54,6 +55,7 @@ bool D3DAppBase::Init()
 int D3DAppBase::Run()
 {
 	MSG msg = { 0 };
+	AppTimer.RestTimer();
 	while (WM_QUIT != msg.message)
 	{
 		/**Using for process windows messages*/
@@ -64,10 +66,19 @@ int D3DAppBase::Run()
 		}
 		else
 		{
-			/**Do something for rendering*/	
-			UpdateScene();
-			DrawScene();
+			AppTimer.Tick();
+			if (!bPaused)
+			{
+				/**Do something for rendering*/
+				UpdateScene(AppTimer.DeltaTime());
+				DrawScene();
+			}
+			else
+			{
+				Sleep(100);
+			}
 		}
+		
 	}
 	return msg.wParam;
 }
@@ -157,7 +168,7 @@ void D3DAppBase::OnResize()
 	pD3DDevContInst->RSSetViewports(1, &mD3dViewPort);
 }
 
-void D3DAppBase::UpdateScene()
+void D3DAppBase::UpdateScene(float DelteTime)
 {
 
 }

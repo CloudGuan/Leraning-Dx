@@ -3,15 +3,10 @@
 #include <windows.h>
 #include <d3d11_1.h>
 #include <directxcolors.h>
-
-
-
+#include "DXAppTimer.h"
 
 
 LRESULT CALLBACK MainWndProc(HWND, UINT , WPARAM , LPARAM );
-
-
-
 
 class D3DAppBase
 {
@@ -32,13 +27,14 @@ public:
 	virtual int Run();
 	virtual void DrawScene();
 	virtual void OnResize();
-	virtual void UpdateScene();
+	virtual void UpdateScene(float DelteTime);
 	virtual LRESULT WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 protected:
 	bool InitWindow();
 	bool InitDevice();
 
 protected:
+	Timer		AppTimer;
 	HINSTANCE	hWndInst;
 	HWND		hWnd;
 	int			iShowCmd;
@@ -46,6 +42,8 @@ protected:
 	int		iClientWidth;
 	int		iClientHeigth;
 	bool	bSupportMSAA;
+
+	bool	bPaused;
 	//UINT	uCreateDeviceFlags;
 	UINT	uMsaaQuailty;
 

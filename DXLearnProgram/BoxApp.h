@@ -20,7 +20,7 @@ public:
 	virtual bool Init() override;
 	virtual void DrawScene() override;
 	virtual void OnResize() override;
-	virtual void UpdateScene() override;
+	virtual void UpdateScene(float) override;
 private:
 	void BuildVerticeLayout();
 	void BuildFX();

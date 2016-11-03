@@ -86,8 +86,9 @@ void BoxApp::OnResize()
 	XMStoreFloat4x4(&mProj, P);
 }
 
-void BoxApp::UpdateScene()
+void BoxApp::UpdateScene(float deltaTime)
 {
+	mTheta += deltaTime*DirectX::XM_PI;
 	float x = mRadius*sinf(mPhi)*cosf(mTheta);
 	float z = mRadius*sinf(mPhi)*sinf(mTheta);
 	float y = mRadius*cosf(mPhi);
