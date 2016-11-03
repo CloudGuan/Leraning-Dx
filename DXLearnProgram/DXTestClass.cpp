@@ -96,8 +96,9 @@ void D3DAppBase::OnResize()
 	assert(pD3DDevContInst);
 
 	if (pRenderingtargetView) pRenderingtargetView->Release();
-	if (pDepthBuffer) pDepthBuffer->Release();
 	if (pDepthStencilView) pDepthStencilView->Release();
+	if (pDepthBuffer) pDepthBuffer->Release();
+	
 
 	pSwapChain->ResizeBuffers(1, iClientWidth, iClientHeigth,DXGI_FORMAT_R8G8B8A8_UNORM,0);
 	ID3D11Texture2D* pBackBuffer;
@@ -315,16 +316,16 @@ bool D3DAppBase::InitDevice()
 
 LRESULT D3DAppBase::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PAINTSTRUCT ps;
-	HDC hdc;
-
 	switch (msg)
 	{
-	case WM_PAINT:
-		hdc = BeginPaint(hwnd, &ps);
-		EndPaint(hwnd, &ps);
+	case WM_SIZE:
+		iClientWidth = LOWORD(lParam);
+		iClientHeigth = HIWORD(lParam);
+		if (pD3DDeviceInst)
+		{
+			OnResize();
+		}
 		break;
-
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;

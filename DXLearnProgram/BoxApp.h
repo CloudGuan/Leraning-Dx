@@ -19,6 +19,7 @@ public:
 public:
 	virtual bool Init() override;
 	virtual void DrawScene() override;
+	virtual void OnResize() override;
 	virtual void UpdateScene() override;
 private:
 	void BuildVerticeLayout();

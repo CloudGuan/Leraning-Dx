@@ -23,6 +23,11 @@ public:
 public:
 	HINSTANCE GetWndHandle(){ return hWndInst; }
 	HWND	GetMainWindows(){ return hWnd; }
+
+	float AspectRatio() const
+	{
+		return static_cast<float>(iClientWidth) / iClientHeigth;
+	}
 	virtual bool Init();
 	virtual int Run();
 	virtual void DrawScene();

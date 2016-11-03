@@ -78,6 +78,14 @@ void BoxApp::DrawScene()
 	HRESULT hr=pSwapChain->Present(0, 0);
 }
 
+void BoxApp::OnResize()
+{
+	D3DAppBase::OnResize();
+
+	DirectX::XMMATRIX P =DirectX::XMMatrixPerspectiveFovLH(0.25f*DirectX::XM_PI, AspectRatio(), 1.0f, 1000.0f);
+	XMStoreFloat4x4(&mProj, P);
+}
+
 void BoxApp::UpdateScene()
 {
 	float x = mRadius*sinf(mPhi)*cosf(mTheta);
