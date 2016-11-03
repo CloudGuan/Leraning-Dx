@@ -129,12 +129,12 @@ void D3DAppBase::OnResize()
 	DepthBufferDesc.CPUAccessFlags = 0;
 	DepthBufferDesc.MiscFlags = 0;
 
-	hr = pD3DDeviceInst->CreateTexture2D(
+	HRESULT hr = pD3DDeviceInst->CreateTexture2D(
 		&DepthBufferDesc,
 		0,
 		&pDepthBuffer);
 	if (FAILED(hr))
-		return false;
+		return;
 
 	hr = pD3DDeviceInst->CreateDepthStencilView(
 		pDepthBuffer,
@@ -142,7 +142,7 @@ void D3DAppBase::OnResize()
 		&pDepthStencilView);
 
 	if (FAILED(hr))
-		return false;
+		return;
 
 	pD3DDevContInst->OMSetRenderTargets(1, &pRenderingtargetView, pDepthStencilView);
 
@@ -309,7 +309,7 @@ bool D3DAppBase::InitDevice()
 
 	/**Setp 4: Bind resource to pipeline stage for rendering it  */
 
-	
+	OnResize();
 	return true;
 }
 
