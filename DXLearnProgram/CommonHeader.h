@@ -1,7 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 
-namespace Colors
+namespace FColors
 {
 	XMGLOBALCONST DirectX::XMVECTORF32 White = { 1.0f, 1.0f, 1.0f, 1.0f };
 	XMGLOBALCONST DirectX::XMVECTORF32 Black = { 0.0f, 0.0f, 0.0f, 1.0f };

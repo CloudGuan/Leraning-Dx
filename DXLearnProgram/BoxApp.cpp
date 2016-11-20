@@ -44,7 +44,7 @@ void BoxApp::DrawScene()
 
 	pD3DDevContInst->ClearRenderTargetView(
 		pRenderingtargetView,
-		reinterpret_cast<const float*>(&Colors::LightSteelBlue));
+		reinterpret_cast<const float*>(&FColors::LightSteelBlue));
 	pD3DDevContInst->ClearDepthStencilView(
 		pDepthStencilView,
 		D3D11_CLEAR_DEPTH|D3D11_CLEAR_STENCIL,
@@ -166,14 +166,14 @@ void BoxApp::BuildBuffers()
 	/**Vertex has been update to simple vertex*/
 	BoxVertice Vertices[] =
 	{
-		{ DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&Colors::White) },
-		{ DirectX::XMFLOAT3(-1.0f, +1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&Colors::Black) },
-		{ DirectX::XMFLOAT3(+1.0f, +1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&Colors::Red) },
-		{ DirectX::XMFLOAT3(+1.0f, -1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&Colors::Green) },
-		{ DirectX::XMFLOAT3(-1.0f, -1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&Colors::Blue) },
-		{ DirectX::XMFLOAT3(-1.0f, +1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&Colors::Yellow) },
-		{ DirectX::XMFLOAT3(+1.0f, +1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&Colors::Cyan) },
-		{ DirectX::XMFLOAT3(+1.0f, -1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&Colors::Magenta) }
+		{ DirectX::XMFLOAT3(-1.0f, -1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&FColors::White) },
+		{ DirectX::XMFLOAT3(-1.0f, +1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&FColors::Black) },
+		{ DirectX::XMFLOAT3(+1.0f, +1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&FColors::Red) },
+		{ DirectX::XMFLOAT3(+1.0f, -1.0f, -1.0f), DirectX::XMFLOAT4((const float*)&FColors::Green) },
+		{ DirectX::XMFLOAT3(-1.0f, -1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&FColors::Blue) },
+		{ DirectX::XMFLOAT3(-1.0f, +1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&FColors::Yellow) },
+		{ DirectX::XMFLOAT3(+1.0f, +1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&FColors::Cyan) },
+		{ DirectX::XMFLOAT3(+1.0f, -1.0f, +1.0f), DirectX::XMFLOAT4((const float*)&FColors::Magenta) }
 	};
 
 	D3D11_BUFFER_DESC vbd;

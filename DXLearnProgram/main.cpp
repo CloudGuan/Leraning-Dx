@@ -1,6 +1,6 @@
 
 #include "DXTestClass.h"
-#include "BoxApp.h"
+#include "SKull.h"
 #include "resource.h"
 
 
@@ -17,7 +17,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 	}
 	return D3DApp.Run();*/
 
-	BoxApp MyBox(hInstance,nCmdShow);
+	SkullApp MyBox(hInstance,nCmdShow);
 	if (!MyBox.Init())
 	{
 		return 0;
