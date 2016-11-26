@@ -68,7 +68,7 @@ void SkullApp::DrawScene()
 
 	pD3DDevContInst->IASetInputLayout(pInputLayout);
 	pD3DDevContInst->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//pD3DDevContInst->RSSetState(mWireframeRS);
+	pD3DDevContInst->RSSetState(mWireframeRS);
 	UINT stride = sizeof(SkullVect);
 	UINT offset = 0;
 	pD3DDevContInst->IASetVertexBuffers(0, 1, &pBoxVB, &stride, &offset);
