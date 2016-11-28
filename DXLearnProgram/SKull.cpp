@@ -17,7 +17,7 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	, mfxWorldViewProj(nullptr)
 	, mTheta(1.5f*DirectX::XM_PI), mPhi(0.25f*DirectX::XM_PI)
 	, mRadius(8.0f)
-	, EyePoint(0.0f,0.0f,0.0f)
+	, EyePoint(0.0f,2.0f,0.0f)
 {
 	DirectX::XMMATRIX I = DirectX::XMMatrixIdentity();
 	//DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -2.0f, 0.0f);
