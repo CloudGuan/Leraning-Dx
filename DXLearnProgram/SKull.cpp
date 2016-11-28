@@ -15,13 +15,31 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	, pTech(nullptr)
 	, pInputLayout(nullptr)
 	, mfxWorldViewProj(nullptr)
-	, mTheta(1.5f*DirectX::XM_PI), mPhi(0.25f*DirectX::XM_PI), mRadius(8.0f)
+	, mTheta(1.5f*DirectX::XM_PI), mPhi(0.25f*DirectX::XM_PI)
+	, mRadius(8.0f)
+	, EyePoint(0.0f,0.0f,0.0f)
 {
 	DirectX::XMMATRIX I = DirectX::XMMatrixIdentity();
 	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -2.0f, 0.0f);
 	XMStoreFloat4x4(&mWord, T);
 	XMStoreFloat4x4(&mView, I);
 	XMStoreFloat4x4(&mProj, I);
+
+	/**declear some paramitors */
+	DlightSource.Ambient = DirectX::XMFLOAT4(0.2f,0.2f,0.2f,1.0f);
+	DlightSource.Diffuse = DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	DlightSource.Specular= DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	DlightSource.Direction = DirectX::XMFLOAT3(0.2f, 0.2f, 0.2f);
+
+	PLightSource.Ambinet = DirectX::XMFLOAT4(0.3f,0.3f,0.3f,1.0f);
+	PLightSource.Diffuse = DirectX::XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
+	PLightSource.Specular = DirectX::XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
+	PLightSource.Att = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
+
+	SkullMaterial.Ambient =	DirectX::XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);					  
+	SkullMaterial.Diffuse =	DirectX::XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
+	SkullMaterial.Specular =DirectX::XMFLOAT4(0.2f, 0.2f, 0.2f, 16.0f);
+
 }
 
 SkullApp::~SkullApp()
@@ -66,8 +84,10 @@ void SkullApp::DrawScene()
 		1.0f,
 		0);
 
+
 	pD3DDevContInst->IASetInputLayout(pInputLayout);
 	pD3DDevContInst->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//线框模式
 	pD3DDevContInst->RSSetState(mWireframeRS);
 	UINT stride = sizeof(SkullVect);
 	UINT offset = 0;
@@ -80,10 +100,16 @@ void SkullApp::DrawScene()
 	DirectX::XMMATRIX WVP = world*view*proj;
 	mfxWorldViewProj->SetMatrix(reinterpret_cast<float*>(&WVP));
 
+	fxDLight->SetRawValue(&DlightSource, 0, sizeof(DlightSource));
+	fxPoint->SetRawValue(&PLightSource, 0, sizeof(PLightSource));
+	fxEyePoint->SetRawValue(&EyePoint, 0, sizeof(EyePoint));
+
+
 	D3DX11_TECHNIQUE_DESC techDesc;
 	pTech->GetDesc(&techDesc);
 	for (UINT p = 0; p < techDesc.Passes; ++p)
 	{
+		fxMaterial->SetRawValue(&SkullMaterial, 0, sizeof(SkullMaterial));
 		pTech->GetPassByIndex(p)->Apply(0, pD3DDevContInst);
 
 		// 立方体有36个索引
@@ -141,8 +167,8 @@ void SkullApp::BuildBuffers()
 	{
 		fin >> SkBuffers[index].Pos.x >> SkBuffers[index].Pos.y >> SkBuffers[index].Pos.z;
 		/**Scape Normal info*/
-		fin >> JumpNum >> JumpNum >> JumpNum;
-		SkBuffers[index].Color = DirectX::XMFLOAT4((const float*)&FColors::Black);
+		fin >> SkBuffers[index].Normal.x >> SkBuffers[index].Normal.y >> SkBuffers[index].Normal.z;
+	
 	}
 	D3D11_BUFFER_DESC vbd;
 	vbd.Usage = D3D11_USAGE_IMMUTABLE;
@@ -202,7 +228,7 @@ void SkullApp::BuildVerticeLayout()
 	D3D11_INPUT_ELEMENT_DESC VertexDesc[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
 
@@ -253,8 +279,14 @@ void SkullApp::BuildFX()
 		return;
 	}
 
-	pTech = pFX->GetTechniqueByName("ColorTech");
+	/**这里要根据fx文件得名字进行更改*/
+	pTech = pFX->GetTechniqueByName("LightTech");
 	mfxWorldViewProj = pFX->GetVariableByName("gWorldViewProj")->AsMatrix();
+	fxDLight = pFX->GetVariableByName("gDLight");
+	fxPoint = pFX->GetVariableByName("gPLight");
+	fxEyePoint = pFX->GetVariableByName("gEyePos")->AsVector();
+	fxMaterial = pFX->GetVariableByName("gMaterial");
+
 	return;
 }
 
