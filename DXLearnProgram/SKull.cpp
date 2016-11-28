@@ -20,8 +20,8 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	, EyePoint(0.0f,0.0f,0.0f)
 {
 	DirectX::XMMATRIX I = DirectX::XMMatrixIdentity();
-	DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -2.0f, 0.0f);
-	XMStoreFloat4x4(&mWord, T);
+	//DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -2.0f, 0.0f);
+	XMStoreFloat4x4(&mWord, I);
 	XMStoreFloat4x4(&mView, I);
 	XMStoreFloat4x4(&mProj, I);
 
@@ -29,16 +29,16 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	DlightSource.Ambient = DirectX::XMFLOAT4(0.2f,0.2f,0.2f,1.0f);
 	DlightSource.Diffuse = DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	DlightSource.Specular= DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	DlightSource.Direction = DirectX::XMFLOAT3(0.2f, 0.2f, 0.2f);
+	DlightSource.Direction = DirectX::XMFLOAT3(0.57735f, -0.57735f, 0.57735f);
 
 	PLightSource.Ambinet = DirectX::XMFLOAT4(0.3f,0.3f,0.3f,1.0f);
 	PLightSource.Diffuse = DirectX::XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
 	PLightSource.Specular = DirectX::XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
 	PLightSource.Att = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
 
-	SkullMaterial.Ambient =	DirectX::XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);					  
-	SkullMaterial.Diffuse =	DirectX::XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
-	SkullMaterial.Specular =DirectX::XMFLOAT4(0.2f, 0.2f, 0.2f, 16.0f);
+	SkullMaterial.Ambient = DirectX::XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	SkullMaterial.Diffuse = DirectX::XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	SkullMaterial.Specular = DirectX::XMFLOAT4(0.8f, 0.8f, 0.8f, 16.0f);
 
 }
 
@@ -88,11 +88,12 @@ void SkullApp::DrawScene()
 	pD3DDevContInst->IASetInputLayout(pInputLayout);
 	pD3DDevContInst->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//Ïß¿òÄ£Ê½
-	pD3DDevContInst->RSSetState(mWireframeRS);
+	//pD3DDevContInst->RSSetState(mWireframeRS);
 	UINT stride = sizeof(SkullVect);
 	UINT offset = 0;
-	pD3DDevContInst->IASetVertexBuffers(0, 1, &pBoxVB, &stride, &offset);
-	pD3DDevContInst->IASetIndexBuffer(pBoxIB, DXGI_FORMAT_R32_UINT, 0);
+	
+
+	
 
 	DirectX::XMMATRIX world = DirectX::XMLoadFloat4x4(&mWord);
 	DirectX::XMMATRIX view = DirectX::XMLoadFloat4x4(&mView);
@@ -109,6 +110,9 @@ void SkullApp::DrawScene()
 	pTech->GetDesc(&techDesc);
 	for (UINT p = 0; p < techDesc.Passes; ++p)
 	{
+		pD3DDevContInst->IASetVertexBuffers(0, 1, &pBoxVB, &stride, &offset);
+		pD3DDevContInst->IASetIndexBuffer(pBoxIB, DXGI_FORMAT_R32_UINT, 0);
+
 		fxMaterial->SetRawValue(&SkullMaterial, 0, sizeof(SkullMaterial));
 		pTech->GetPassByIndex(p)->Apply(0, pD3DDevContInst);
 
@@ -129,7 +133,7 @@ void SkullApp::OnResize()
 
 void SkullApp::UpdateScene(float DelteTime)
 {
-	mTheta += DelteTime*DirectX::XM_PI;
+	//mTheta += DelteTime*DirectX::XM_PI;
 	float x = mRadius*sinf(mPhi)*cosf(mTheta);
 	float z = mRadius*sinf(mPhi)*sinf(mTheta);
 	float y = mRadius*cosf(mPhi);
@@ -170,6 +174,7 @@ void SkullApp::BuildBuffers()
 		fin >> SkBuffers[index].Normal.x >> SkBuffers[index].Normal.y >> SkBuffers[index].Normal.z;
 	
 	}
+	/**we should change the type */
 	D3D11_BUFFER_DESC vbd;
 	vbd.Usage = D3D11_USAGE_IMMUTABLE;
 	vbd.ByteWidth = sizeof(SkullVect) * VertexCount;
@@ -263,7 +268,7 @@ void SkullApp::BuildFX()
 
 
 
-	HRESULT hr = D3DX11CompileEffectFromFile(L"BoxEffect.fx", nullptr,
+	HRESULT hr = D3DX11CompileEffectFromFile(L"FSDemo.fx", nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, shaderFlags,
 		0, pD3DDeviceInst, &pFX, &compilationMsg);
 	if (compilationMsg)
