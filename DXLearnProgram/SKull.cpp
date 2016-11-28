@@ -278,11 +278,6 @@ void SkullApp::BuildFX()
 		compilationMsg->Release();
 	}
 
-	if (FAILED(hr))
-	{
-		ppBlobOut->Release();
-		return;
-	}
 
 	/**这里要根据fx文件得名字进行更改*/
 	pTech = pFX->GetTechniqueByName("LightTech");

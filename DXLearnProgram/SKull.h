@@ -40,12 +40,11 @@ private:
 	ID3DX11EffectMatrixVariable* mfxWorldViewProj;
 	ID3DX11EffectVectorVariable* fxEyePoint;
 
+	//
 	DirectX::XMFLOAT4X4 mWord;
 	DirectX::XMFLOAT4X4 mView;
 	DirectX::XMFLOAT4X4 mProj;
 
-	ID3D11VertexShader*     g_pVertexShader = nullptr;
-	ID3D11PixelShader*      g_pPixelShader = nullptr;
 	ID3DBlob* ppBlobOut = nullptr;
 
 	float mTheta;
