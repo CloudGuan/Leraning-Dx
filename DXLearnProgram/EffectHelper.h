@@ -32,6 +32,8 @@ public:
 	void SetDirectLight(const DirectionalLight* DL){ fxDlight->SetRawValue(DL, 0, sizeof(DirectionalLight)); }
 	void SetMaterial(const Material& Ma){ fxSkullMaterial->SetRawValue(&Ma, 0, sizeof(Material)); }
 	void SetEyePos(const XMFLOAT3& p){ EyePos->SetRawValue(&p, 0, sizeof(XMFLOAT3)); }
+
+	ID3DX11EffectTechnique*& GetTechPtr(){ return pTech; }
 private:
 	ID3DX11EffectTechnique* pTech;
 	ID3DX11EffectVariable*fxDlight;
@@ -43,3 +45,5 @@ private:
 
 	ID3DX11EffectVectorVariable*EyePos;
 };
+
+

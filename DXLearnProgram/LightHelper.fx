@@ -54,8 +54,8 @@ void ComputeDirectionaLight(Material mat, DirectionalLight L, float3 normal, flo
 	/**计算反射线，材质受平行光的影响*/
 	float3 lightVec = -L.Direction;
 	ambient = mat.Ambient*L.Ambient;
-	float Diffusefactor = dot(lightVec, normal);
 
+	float Diffusefactor = dot(lightVec, normal);
 	/**分支语句*/
 	[flatten]
 	if (Diffusefactor > 0.0f)

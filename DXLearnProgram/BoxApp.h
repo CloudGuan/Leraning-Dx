@@ -5,6 +5,8 @@
 #include <DirectXMath.h>
 //define the vertices layout 
 
+/**这是一个图形绘制演示程序，只要替换build buffers这个函数内部的东西，就可以更换不同的图形进行绘制，注意这个程序并无光照*/
+
 struct BoxVertice
 {
 	DirectX::XMFLOAT3 Pos;

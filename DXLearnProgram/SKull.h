@@ -2,12 +2,15 @@
 #include "DXTestClass.h"
 #include "Common/d3dx11effect.h"
 #include "LightHelper.h"
+#include "EffectHelper.h"
 #include <DirectXMath.h>
+
+
 
 struct SkullVect
 {
 	DirectX::XMFLOAT3 Pos;
-	DirectX::XMFLOAT4 Normal;
+	DirectX::XMFLOAT3 Normal;
 };
 
 class SkullApp :public D3DAppBase
@@ -30,28 +33,20 @@ private:
 	ID3D11Buffer* pBoxIB;
 
 	/**当我们编译fx得时候要和书上说的一样，把这些变量绑定上去*/
-	ID3DX11Effect* pFX;
-	ID3DX11EffectTechnique* pTech;
-	ID3DX11EffectVariable* fxDLight;
-	ID3DX11EffectVariable* fxPoint;
-	ID3DX11EffectVariable* fxMaterial;
-
 	ID3D11InputLayout* pInputLayout;
-	ID3DX11EffectMatrixVariable* mfxWorldViewProj;
-	ID3DX11EffectVectorVariable* fxEyePoint;
 
 	//
 	DirectX::XMFLOAT4X4 mWord;
 	DirectX::XMFLOAT4X4 mView;
 	DirectX::XMFLOAT4X4 mProj;
 
-	ID3DBlob* ppBlobOut = nullptr;
-
 	float mTheta;
 	float mPhi;
 	float mRadius;
 
 	UINT IndicsCount;
+	BasicEffect* SkullEffect;
+
 	ID3D11RasterizerState* mWireframeRS;
 
 	/**additional code to implement light effect*/

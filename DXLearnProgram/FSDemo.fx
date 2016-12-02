@@ -15,6 +15,7 @@ cbuffer cbPerObject
 	float4x4 gWorld;
 	float4x4 gWorldInvTranspose;
 	float4x4 gWorldViewProj;
+	float4x4 gTexTransform;
 	Material gMaterial;
 };
 
@@ -53,20 +54,15 @@ float4 PS(VertexOut pin) :SV_Target
 
 	float3 toEyeW = normalize(gEyePos - pin.PosW);
 
-		float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-		float4 A = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 D = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 S = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 A = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 D = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 S = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	ComputeDirectionaLight(gMaterial, gDLight, pin.NormalW, toEyeW, A, D, S);
-	ambient += A;
-	diffuse += D;
-	spec += S;
-
-	ComputePointLight(gMaterial, gPLight, pin.PosW, pin.NormalW, toEyeW, A, D, S);
 	ambient += A;
 	diffuse += D;
 	spec += S;
