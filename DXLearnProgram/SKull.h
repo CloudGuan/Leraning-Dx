@@ -4,7 +4,7 @@
 #include "LightHelper.h"
 #include "EffectHelper.h"
 #include <DirectXMath.h>
-
+#include "InputHelper.h"
 
 
 struct SkullVect
@@ -46,6 +46,7 @@ private:
 
 	UINT IndicsCount;
 	BasicEffect* SkullEffect;
+	DXInputHelper*  InpterController;
 
 	ID3D11RasterizerState* mWireframeRS;
 

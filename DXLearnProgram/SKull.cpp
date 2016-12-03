@@ -16,7 +16,9 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	, mTheta(1.5f*DirectX::XM_PI), mPhi(0.25f*DirectX::XM_PI)
 	, mRadius(8.0f)
 	, EyePoint(1.0f,6.0f,1.0f)
+	, InpterController(nullptr)
 {
+	
 
 	XMMATRIX skullScale = XMMatrixScaling(0.5f, 0.5f, 0.5f);
 	XMMATRIX skullOffset = XMMatrixTranslation(0.0f, -2.0f, 0.0f);
@@ -56,7 +58,7 @@ bool SkullApp::Init()
 		printf_s("Init D3D Error!!!!");
 		return false;
 	}
-	
+	InpterController = new DXInputHelper(hWnd, hWndInst, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	
 	//BuildFX();
 	SkullEffect = new BasicEffect(pD3DDeviceInst ,"../Debug/FSDemo.fxo");
@@ -142,7 +144,11 @@ void SkullApp::OnResize()
 
 void SkullApp::UpdateScene(float DelteTime)
 {
-	//mTheta += DelteTime*DirectX::XM_PI;
+	InpterController->Tick();
+
+
+	mTheta += InpterController->MouseX()*0.008f;
+	
 	float x = mRadius*sinf(mPhi)*cosf(mTheta);
 	float z = mRadius*sinf(mPhi)*sinf(mTheta);
 	float y = mRadius*cosf(mPhi);
