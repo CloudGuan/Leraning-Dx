@@ -29,7 +29,7 @@ public:
 	void SetWordTransMatrix(CXMMATRIX& M){ fxWInTranspose->SetMatrix(reinterpret_cast<const float*>(&M)); }
 	void SetWordViewMatrix(CXMMATRIX& M){ fxWViewProj->SetMatrix(reinterpret_cast<const float*>(&M)); }
 
-	void SetDirectLight(const DirectionalLight* DL){ fxDlight->SetRawValue(DL, 0, sizeof(DirectionalLight)); }
+	void SetDirectLight(const DirectionalLight& DL){ fxDlight->SetRawValue(&DL, 0, sizeof(DirectionalLight)); }
 	void SetMaterial(const Material& Ma){ fxSkullMaterial->SetRawValue(&Ma, 0, sizeof(Material)); }
 	void SetEyePos(const XMFLOAT3& p){ EyePos->SetRawValue(&p, 0, sizeof(XMFLOAT3)); }
 

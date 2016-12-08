@@ -19,6 +19,8 @@ public:
 	virtual~DXInputHelper();
 public:
 	void  Tick();
+	bool GetKey(char Key);
+	bool GetMouseButtonDown(int ButtonIndex);
 	float MouseX();
 	float MouseY();
 	float MouseZ();

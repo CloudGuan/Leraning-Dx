@@ -45,7 +45,7 @@ struct Material
 	float4 Reflect;
 };
 
-void ComputeDirectionaLight(Material mat, DirectionalLight L, float3 normal, float3 toEye, out float4 ambient, float4 diffuse, float4 specical)
+void ComputeDirectionaLight(Material mat, DirectionalLight L, float3 normal, float3 toEye, out float4 ambient, out float4 diffuse,out float4 specical)
 {
 	ambient	=float4(0.0f,0.0f,0.0f,0.0f);
 	diffuse	=float4(0.0f,0.0f,0.0f,0.0f);
@@ -63,7 +63,7 @@ void ComputeDirectionaLight(Material mat, DirectionalLight L, float3 normal, flo
 		/**compute ref light*/
 		float3 reflight = reflect(-lightVec,normal);
 		float ks = pow(max(dot(reflight, toEye), 0.0f),mat.Specular.w);
-		diffuse = Diffusefactor*L.Diffuse*mat.Diffuse;
+		diffuse = Diffusefactor*mat.Diffuse*L.Diffuse;
 
 		specical = ks*mat.Specular*L.Specular;
 	}

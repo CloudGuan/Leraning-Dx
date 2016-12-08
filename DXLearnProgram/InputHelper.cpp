@@ -27,8 +27,16 @@ DXInputHelper::DXInputHelper(HWND hwnd, HINSTANCE hInstance, DWORD keyboardCoopF
 		&MouseInputDev,
 		NULL
 		);
+	hr = DInput->CreateDevice(
+		GUID_SysKeyboard,
+		&KeyBoardInputDev,
+		NULL
+		);
+	hr = KeyBoardInputDev->SetCooperativeLevel(hwnd, keyboardCoopFlags);
+	hr = KeyBoardInputDev->SetDataFormat(&c_dfDIKeyboard);
+	hr = KeyBoardInputDev->Acquire();
+	hr = KeyBoardInputDev->Poll();
 
-	
 	hr = MouseInputDev->SetCooperativeLevel(hwnd, mouseCoopFlags);
 	hr = MouseInputDev->SetDataFormat(&c_dfDIMouse2);
 	hr = MouseInputDev->Acquire();
@@ -44,6 +52,23 @@ void DXInputHelper::Tick()
 		ZeroMemory(&MouseState, sizeof(MouseState));
 		MouseInputDev->Acquire();
 	}
+
+	hr = KeyBoardInputDev->GetDeviceState(sizeof(KeyboardState),(void**)&KeyboardState);
+	if (FAILED(hr))
+	{
+		ZeroMemory(&KeyboardState, sizeof(KeyboardState));
+		KeyBoardInputDev->Acquire();
+	}
+}
+
+bool DXInputHelper::GetKey(char Key)
+{
+	return (KeyboardState[Key] & 0x80) != 0;
+}
+
+bool DXInputHelper::GetMouseButtonDown(int ButtonIndex)
+{
+	return (MouseState.rgbButtons[ButtonIndex] & 0x80)!=0;
 }
 
 float DXInputHelper::MouseX()

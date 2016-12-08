@@ -27,13 +27,13 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	//DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -2.0f, 0.0f);
 
 	XMStoreFloat4x4(&mView, I);
-	XMStoreFloat4x4(&mProj, I);
+	XMStoreFloat4x4(&mProj, I);   
 
 	/**declear some paramitors */
-	DlightSource.Ambient = DirectX::XMFLOAT4(0.7f,0.2f,0.3f,1.0f);
-	DlightSource.Diffuse = DirectX::XMFLOAT4(0.2f, 0.5f, 0.5f, 1.0f);
-	DlightSource.Specular= DirectX::XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	DlightSource.Direction = DirectX::XMFLOAT3(0.57735f, 0.57735f, 0.57735f);
+	DlightSource.Ambient = DirectX::XMFLOAT4(0.2f,0.5f,0.3f,1.0f);
+	DlightSource.Diffuse = DirectX::XMFLOAT4(0.7f, 0.2f, 0.2f, 1.0f);
+	DlightSource.Specular= DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	DlightSource.Direction = DirectX::XMFLOAT3(-0.57735f, 0.57735f, 0.57735f);
 
 	PLightSource.Ambinet = DirectX::XMFLOAT4(0.3f,0.3f,0.3f,1.0f);
 	PLightSource.Diffuse = DirectX::XMFLOAT4(0.7f, 0.7f, 0.7f, 1.0f);
@@ -115,9 +115,10 @@ void SkullApp::DrawScene()
 
 	SkullEffect->SetWordViewMatrix(WVP);
 	SkullEffect->SetWordMatrix(world);
-	SkullEffect->SetWordTransMatrix(XMMatrixTranspose(XMMatrixInverse(&det,A)));
+	DirectX::XMMATRIX trans = XMMatrixTranspose(XMMatrixInverse(&det, A));
+	SkullEffect->SetWordTransMatrix(trans);
 
-	SkullEffect->SetDirectLight(&DlightSource);
+	SkullEffect->SetDirectLight(DlightSource);
 	SkullEffect->SetEyePos(EyePoint);
 	SkullEffect->SetMaterial(SkullMaterial);
 
@@ -167,7 +168,7 @@ void SkullApp::UpdateScene(float DelteTime)
 void SkullApp::BuildBuffers()
 {
 	MeshDate SkullMesh;
-	if (GemotryHelper::GetInstance()->GetBox(SkullMesh) == 0)
+	if (GemotryHelper::GetInstance()->GetSkull(SkullMesh) == 0)
 		printf_s("read successful!!");
 	
 	IndicsCount=SkullMesh.Indices.size();

@@ -38,7 +38,7 @@ VertexOut VS(VertexIn vin)
 	VertexOut vout;
 
 	// 转换到世界空间
-	vout.PosW = mul(float4(vin.PosL, 1.0f), gWorld).xyz;
+ 	vout.PosW = mul(float4(vin.PosL, 1.0f), gWorld).xyz;
 	vout.NormalW = mul(vin.NormalL, (float3x3)gWorldInvTranspose);
 
 	// 转换到齐次剪裁空间
@@ -59,7 +59,7 @@ float4 PS(VertexOut pin) :SV_Target
 	float4 spec = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	float4 A = float4(0.0f, 0.0f, 0.0f, 0.0f);
-	float4 D = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 D = float4(0.7f, 0.2f, 0.2f, 0.0f);
 	float4 S = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 	ComputeDirectionaLight(gMaterial, gDLight, pin.NormalW, toEyeW, A, D, S);
@@ -67,7 +67,7 @@ float4 PS(VertexOut pin) :SV_Target
 	diffuse += D;
 	spec += S;
 
-	float4 litColor = ambient + diffuse + spec;
+	float4 litColor = ambient+diffuse + spec;
 	litColor.a = gMaterial.Diffuse.a;
 	return litColor;
 }

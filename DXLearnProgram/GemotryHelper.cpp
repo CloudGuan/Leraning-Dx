@@ -28,10 +28,10 @@ int GemotryHelper::GetBox(MeshDate& OutMeshData)
 	float h2 = 0.5f * 6;
 	float d2 = 0.5f * 6;
 
-	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, -d2, 0.0f, 0.0f, -1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, -d2, 0.0f, 0.0f, -1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 0.0f, 0.0f, -1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 0.0f, 0.0f, -1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, -d2, 0.0f, 0.2f, -1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, -d2, 0.0f, 0.2f, -1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 0.0f, 0.2f, -1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 0.0f, 0.2f, -1.0f));
 	
 	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, +d2, 0.0f, 0.0f, 1.0f));
 	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, +d2, 0.0f, 0.0f, 1.0f));
