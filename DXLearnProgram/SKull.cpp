@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include "DDSTextureLoader.h"
 #include "GemotryHelper.h"
 #include "CommonHeader.h"
 
@@ -17,21 +18,24 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	, mRadius(8.0f)
 	, EyePoint(1.0f,6.0f,1.0f)
 	, InpterController(nullptr)
+	, pDiffuseMapSRV(nullptr)
 {
 	
 
 	XMMATRIX skullScale = XMMatrixScaling(0.5f, 0.5f, 0.5f);
-	XMMATRIX skullOffset = XMMatrixTranslation(0.0f, -2.0f, 0.0f);
-	XMStoreFloat4x4(&mWord, XMMatrixMultiply(skullScale, skullOffset));
+	XMMATRIX skullOffset = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+	
 	DirectX::XMMATRIX I = DirectX::XMMatrixIdentity();
 	//DirectX::XMMATRIX T = DirectX::XMMatrixTranslation(0.0f, -2.0f, 0.0f);
-
+	XMStoreFloat4x4(&mWord, XMMatrixMultiply(skullScale, skullOffset));
 	XMStoreFloat4x4(&mView, I);
 	XMStoreFloat4x4(&mProj, I);   
+	/**Init the texture tans matrix*/
+	XMStoreFloat4x4(&TexTrans, I);
 
 	/**declear some paramitors */
-	DlightSource.Ambient = DirectX::XMFLOAT4(0.2f,0.5f,0.3f,1.0f);
-	DlightSource.Diffuse = DirectX::XMFLOAT4(0.7f, 0.2f, 0.2f, 1.0f);
+	DlightSource.Ambient = DirectX::XMFLOAT4(0.5f,0.5f,0.5f,1.0f);
+	DlightSource.Diffuse = DirectX::XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	DlightSource.Specular= DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	DlightSource.Direction = DirectX::XMFLOAT3(-0.57735f, 0.57735f, 0.57735f);
 
@@ -61,9 +65,26 @@ bool SkullApp::Init()
 	InpterController = new DXInputHelper(hWnd, hWndInst, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	
 	//BuildFX();
-	SkullEffect = new BasicEffect(pD3DDeviceInst ,"../Debug/FSDemo.fxo");
+	
+	SkullEffect = new TextEffect(pD3DDeviceInst, "../Debug/TextureFx.fxo");
 	BuildVerticeLayout();
 	BuildBuffers();
+
+	/**
+	*	原本这里的方法D3DX11CreateShaderResourceViewFromFile 已经被废弃了，现在这些东西被拆分了出来
+	*	所以现在使用新的方法代替，https://github.com/Microsoft/DirectXTK/releases
+	*	https://directxtk.codeplex.com/wikipage?title=DDSTextureLoader
+	*/
+	HRESULT hr = DirectX::CreateDDSTextureFromFile(
+		pD3DDeviceInst,
+		L"Textures/WoodCrate01.dds",
+		nullptr,
+		&pDiffuseMapSRV
+		);
+	if (FAILED(hr))
+	{
+		return false;
+	}
 	/*D3D11_RASTERIZER_DESC wireframeDesc;
 	ZeroMemory(&wireframeDesc, sizeof(D3D11_RASTERIZER_DESC));
 	wireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
@@ -96,7 +117,7 @@ void SkullApp::DrawScene()
 	pD3DDevContInst->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//线框模式
 	//pD3DDevContInst->RSSetState(mWireframeRS);
-	UINT stride = sizeof(SkullVect);
+	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	
 	pD3DDevContInst->IASetVertexBuffers(0, 1, &pBoxVB, &stride, &offset);
@@ -117,11 +138,12 @@ void SkullApp::DrawScene()
 	SkullEffect->SetWordMatrix(world);
 	DirectX::XMMATRIX trans = XMMatrixTranspose(XMMatrixInverse(&det, A));
 	SkullEffect->SetWordTransMatrix(trans);
-
+	
+	SkullEffect->SetTexTranMatrix(XMLoadFloat4x4(&TexTrans));
 	SkullEffect->SetDirectLight(DlightSource);
 	SkullEffect->SetEyePos(EyePoint);
 	SkullEffect->SetMaterial(SkullMaterial);
-
+	SkullEffect->SetDiffuse(pDiffuseMapSRV);
 
 	D3DX11_TECHNIQUE_DESC techDesc;
 	SkullEffect->GetTechPtr()->GetDesc(&techDesc);
@@ -167,8 +189,11 @@ void SkullApp::UpdateScene(float DelteTime)
 
 void SkullApp::BuildBuffers()
 {
+	/**
+	*	chapter 8, add the texture params 
+	*/
 	MeshDate SkullMesh;
-	if (GemotryHelper::GetInstance()->GetSkull(SkullMesh) == 0)
+	if (GemotryHelper::GetInstance()->GetBox(SkullMesh) == 0)
 		printf_s("read successful!!");
 	
 	IndicsCount=SkullMesh.Indices.size();
@@ -216,19 +241,21 @@ void SkullApp::BuildBuffers()
 
 void SkullApp::BuildVerticeLayout()
 {
+	/** add the description of Texcoord*/
 	D3D11_INPUT_ELEMENT_DESC VertexDesc[] =
 	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
-
+	
 	D3DX11_PASS_DESC passDesc;
 	assert(SkullEffect);
 	SkullEffect->GetTechPtr()->GetPassByIndex(0)->GetDesc(&passDesc);
 	HRESULT hr = pD3DDeviceInst->CreateInputLayout(
 		VertexDesc
-		, 2
+		, 3
 		, passDesc.pIAInputSignature
 		, passDesc.IAInputSignatureSize
 		, &pInputLayout);

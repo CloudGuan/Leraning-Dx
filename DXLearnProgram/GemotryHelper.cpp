@@ -28,40 +28,41 @@ int GemotryHelper::GetBox(MeshDate& OutMeshData)
 	float h2 = 0.5f * 6;
 	float d2 = 0.5f * 6;
 
-	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, -d2, 0.0f, 0.2f, -1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, -d2, 0.0f, 0.2f, -1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 0.0f, 0.2f, -1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 0.0f, 0.2f, -1.0f));
-	
-	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, +d2, 0.0f, 0.0f, 1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, +d2, 0.0f, 0.0f, 1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, +d2, 0.0f, 0.0f, 1.0f));
-	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, +d2, 0.0f, 0.0f, 1.0f));
+	/**compare with the last version,I add the texture uv*/
+	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, -d2, 0.0f, 0.2f, -1.0f,0.0f, 1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, -d2, 0.0f, 0.2f, -1.0f,0.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 0.0f, 0.2f, -1.0f,1.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 0.0f, 0.2f, -1.0f,1.0f, 1.0f));
 
-	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, -d2, 0.0f, 1.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, +d2, 0.0f, 1.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, +d2, 0.0f, 1.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 0.0f, 1.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, +d2, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, +d2, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, +d2, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, +d2, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f));	 
 
-	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, -d2, 0.0f, -1.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 0.0f, -1.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, +d2, 0.0f, -1.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, +d2, 0.0f, -1.0f, 0.0f));
-  
-	OutMeshData.PosInfos.push_back( Vertex(-w2, -h2, +d2, -1.0f, 0.0f, 0.0f));
-	OutMeshData.PosInfos.push_back( Vertex(-w2, +h2, +d2, -1.0f, 0.0f, 0.0f));
-	OutMeshData.PosInfos.push_back( Vertex(-w2, +h2, -d2, -1.0f, 0.0f, 0.0f));
-	OutMeshData.PosInfos.push_back( Vertex(-w2, -h2, -d2, -1.0f, 0.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, -d2, 0.0f, 1.0f, 0.0f,0.0f, 1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, +d2, 0.0f, 1.0f, 0.0f,0.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, +d2, 0.0f, 1.0f, 0.0f,1.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 0.0f, 1.0f, 0.0f,1.0f, 1.0f));
+																							
+	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, -d2, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f));
+	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, +d2, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, +d2, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f));
+																						  
+	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, +d2, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f)); 
+	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, +d2, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f)); 
+	OutMeshData.PosInfos.push_back(Vertex(-w2, +h2, -d2, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f));
+	OutMeshData.PosInfos.push_back(Vertex(-w2, -h2, -d2, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f));
+																						 
+	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f)); 
+	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f)); 
+	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, +d2, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f)); 
+	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, +d2, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f));
 
-	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, -d2, 1.0f, 0.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, -d2, 1.0f, 0.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, +h2, +d2, 1.0f, 0.0f, 0.0f));
-	OutMeshData.PosInfos.push_back(Vertex(+w2, -h2, +d2, 1.0f, 0.0f, 0.0f));
-
-	UINT i[36];
-
-	// Fill in the front face index data
-	i[0] = 0; i[1] = 1; i[2] = 2;
+	UINT i[36];																			
+																						
+	// Fill in the front face index data												
+	i[0] = 0; i[1] = 1; i[2] = 2;														
 	i[3] = 0; i[4] = 2; i[5] = 3;
 
 	// Fill in the back face index data
@@ -153,9 +154,10 @@ Vertex::Vertex()
 
 }
 
-Vertex::Vertex(float x, float y, float z, float nx, float ny, float nz)
+Vertex::Vertex(float x, float y, float z, float nx, float ny, float nz,float tx,float ty)
 	:Positon(x,y,z)
 	,Normal(nx,ny,nz)
+	,Tex(tx,ty)
 {
 
 }
@@ -164,4 +166,5 @@ Vertex::Vertex(const Vertex& rhs)
 {
 	this->Positon=rhs.Positon;
 	this->Normal = rhs.Normal;
+	this->Tex = rhs.Tex;
 }

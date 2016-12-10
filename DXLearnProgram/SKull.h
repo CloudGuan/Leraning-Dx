@@ -7,11 +7,7 @@
 #include "InputHelper.h"
 
 
-struct SkullVect
-{
-	DirectX::XMFLOAT3 Pos;
-	DirectX::XMFLOAT3 Normal;
-};
+
 
 class SkullApp :public D3DAppBase
 {
@@ -35,20 +31,25 @@ private:
 	/**当我们编译fx得时候要和书上说的一样，把这些变量绑定上去*/
 	ID3D11InputLayout* pInputLayout;
 
-	//
+
 	DirectX::XMFLOAT4X4 mWord;
 	DirectX::XMFLOAT4X4 mView;
 	DirectX::XMFLOAT4X4 mProj;
+
+	/**store the texture tans*/
+	DirectX::XMFLOAT4X4 TexTrans;
+	/**Store the reference of texture pointer*/
+	ID3D11ShaderResourceView* pDiffuseMapSRV;
 
 	float mTheta;
 	float mPhi;
 	float mRadius;
 
 	UINT IndicsCount;
-	BasicEffect* SkullEffect;
+	TextEffect* SkullEffect;
 	DXInputHelper*  InpterController;
 
-	ID3D11RasterizerState* mWireframeRS;
+	//ID3D11RasterizerState* mWireframeRS;
 
 	/**additional code to implement light effect*/
 	DirectionalLight DlightSource;
@@ -56,4 +57,5 @@ private:
 	Material SkullMaterial;
 
 	DirectX::XMFLOAT3 EyePoint;
+	/***/
 };

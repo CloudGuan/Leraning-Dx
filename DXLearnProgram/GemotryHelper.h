@@ -9,9 +9,10 @@ struct Vertex
 {
 	Vertex();
 	Vertex(const Vertex& rhs);
-	Vertex(float x, float y, float z, float nx, float ny, float nz);
+	Vertex(float x, float y, float z, float nx, float ny, float nz,float tx,float ty);
 	DirectX::XMFLOAT3 Positon;
 	DirectX::XMFLOAT3 Normal;
+	DirectX::XMFLOAT2 Tex;
 };
 
 struct MeshDate
