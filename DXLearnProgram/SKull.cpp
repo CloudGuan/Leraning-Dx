@@ -7,6 +7,7 @@
 #include "DDSTextureLoader.h"
 #include "GemotryHelper.h"
 #include "CommonHeader.h"
+#include "DebugTools.h"
 
 
 SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
@@ -45,7 +46,7 @@ SkullApp::SkullApp(HINSTANCE hInstance, int nShowCmd)
 	PLightSource.Att = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
 
 	SkullMaterial.Ambient = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	SkullMaterial.Diffuse = DirectX::XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	SkullMaterial.Diffuse = DirectX::XMFLOAT4(0.4f, 0.4f, 0.4f, 1.0f);
 	SkullMaterial.Specular = DirectX::XMFLOAT4(0.8f, 0.8f, 0.8f, 16.0f);
 
 }
@@ -59,7 +60,7 @@ bool SkullApp::Init()
 {
 	if(!D3DAppBase::Init())
 	{
-		printf_s("Init D3D Error!!!!");
+		DX_LOG("ERROR", "Init Dx Program error");
 		return false;
 	}
 	InpterController = new DXInputHelper(hWnd, hWndInst, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
@@ -279,18 +280,6 @@ void SkullApp::BuildFX()
 #endif
 	ID3DBlob* compilationMsg = nullptr;
 	/**the old code has been ·ÏÆú*/
-
-
-
-	//HRESULT hr = D3DX11CompileEffectFromFile(L"FSDemo.fx", nullptr,
-	//	D3D_COMPILE_STANDARD_FILE_INCLUDE, shaderFlags,
-	//	0, pD3DDeviceInst, &pFX, &compilationMsg);
-	//if (compilationMsg)
-	//{
-	//	char* Str = (char*)compilationMsg->GetBufferPointer();
-	//	printf_s("%s", Str);
-	//	compilationMsg->Release();
-	//}
 
 	return;
 }
